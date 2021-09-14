@@ -1,40 +1,44 @@
-package com.heptagonibby.tictactoe;
+package com.heptagonibby.tictactoe
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.widget.ImageViewCompat;
+import androidx.appcompat.app.AppCompatActivity
+import com.heptagonibby.tictactoe.R
+import android.os.Bundle
+import android.view.View
+import android.widget.ImageView
 
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
+class MainActivity : AppCompatActivity() {
+    var activePlayer = 0
+    var gameState = intArrayOf(2, 2, 2, 2, 2, 2, 2, 2, 2)
+    var winPosition = arrayOf(
+        intArrayOf(0, 1, 2),
+        intArrayOf(3, 4, 5),
+        intArrayOf(6, 7, 8),
+        intArrayOf(0, 3, 6),
+        intArrayOf(1, 4, 7),
+        intArrayOf(2, 5, 8),
+        intArrayOf(0, 4, 8),
+        intArrayOf(2, 4, 6)
+    )
 
-public class MainActivity extends AppCompatActivity {
-    int activePlayer = 0;
-    int [] gameState = {2,2,2,2,2,2,2,2,2};
-
-    int [] [] winPosition = { {0,1,2}, {3,4,5}, {6,7,8},
-            {0,3,6}, {1,4,7}, {2,5,8},
-            {0,4,8},{2,4,6}};
-    public void playerTape(View view){
-        ImageView img = (ImageView)view ;
-        int tappedImage = Integer.parseInt(img.getTag().toString());
-        if(gameState[tappedImage] == 2){
-            gameState[tappedImage] = activePlayer ;
-            img.setTranslationY(-1000f);
-            if(activePlayer == 0){
-                img.setImageResource(R.drawable.cr);
-                activePlayer = 1;
-            }
-            else{
-                img.setImageResource(R.drawable.z);
-                activePlayer = 0;
+    fun playerTape(view: View) {
+        val img = view as ImageView
+        val tappedImage = img.tag.toString().toInt()
+        if (gameState[tappedImage] == 2) {
+            gameState[tappedImage] = activePlayer
+            img.translationY = -1000f
+            activePlayer = if (activePlayer == 0) {
+                img.setImageResource(R.drawable.cr)
+                1
+            } else {
+                img.setImageResource(R.drawable.z)
+                0
             }
         }
-        img.animate().translationYBy(1000f).setDuration(400);
+        img.animate().translationYBy(1000f).duration = 400
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
     }
 }
